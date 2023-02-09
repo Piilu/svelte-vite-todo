@@ -1,4 +1,5 @@
 <script>
+  import ItemList from "./lib/ItemList.svelte";
   let message = "";
   let items = [];
 
@@ -19,27 +20,21 @@
   $: notDoneItems = items.filter((x) => x.isDone == false);
 </script>
 
-<main>
-  <input on:keydown={(e) => keyDown(e)} type="text" bind:value={message} />
-  <button on:click={add}>Add</button>
-  <h1>All items</h1>
-  <ul>
-    {#each items as item}
-      <li>{item.name} <input type="checkbox" bind:checked={item.isDone} /></li>
-    {/each}
-  </ul>
-
-  <h1>Done items</h1>
-  <ul>
-    {#each doneItems as item}
-      <li>{item.name} <input type="checkbox" bind:checked={item.isDone} /></li>
-    {/each}
-  </ul>
-
-  <h1>Not done items</h1>
-  <ul>
-    {#each notDoneItems as item}
-      <li>{item.name} <input type="checkbox" bind:checked={item.isDone} /></li>
-    {/each}
-  </ul>
-</main>
+<div class="container mx-auto m-3 flex justify-center items-center  flex-col">
+  <div class="form-control">
+    <div class="input-group">
+      <input
+        class="input input-bordered w-full max-w-xs"
+        on:keydown={(e) => keyDown(e)}
+        type="text"
+        bind:value={message}
+      />
+      <button class="btn btn-square btn-primary" on:click={add}>Add</button>
+    </div>
+  </div>
+  <ItemList title="All items" bind:items />
+  <div class="divider" />
+  <ItemList title="Done items" bind:items={doneItems} />
+  <div class="divider" />
+  <ItemList title="Not done items" bind:items={notDoneItems} />
+</div>
